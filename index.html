@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Radio Validation with Back Arrow</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- HEADER tetap di atas -->
+    <header class="header" id="header">
+      <!-- Tombol back (panah kiri), lingkaran abu, 
+           onclick memanggil previousPage() -->
+      <button class="back-arrow" onclick="previousPage()">
+        <span class="arrow-symbol">&#x2190;</span>
+      </button>
+
+        <!-- Progress bar -->
+    <div class="progress-container">
+      <!-- Lebar .progress-fill dapat diatur di JS
+           atau inline style: style="width: 20%" dsb. -->
+      <div class="progress-fill" id="progress-bar"></div>
+    </div>
+  
+    </header>
+
+  <!-- Halaman 1 -->
+  <section class="page active" id="page-1">
+    <h1>Intermittent Fasting</h1>
+    <p class="subtext">according to your age and BMI</p>
+    <p class="subtext">1-minute quiz</p>
+
+    <div class="button-group">
+      <button class="btn male-btn" onclick="nextPage()">Male</button>
+      <button class="btn female-btn" onclick="nextPage()">Female</button>
+    </div>
+
+    <p class="disclaimer">
+      By continuing you agree to the Privacy Policy and Terms & Conditions.
+    </p>
+  </section>
+
+  <!-- Halaman 2 -->
+  <section class="page" id="page-2">
+
+    <h2 class="trusted-text">
+      More than <span class="highlight">15 million people</span> have trusted Kompanion
+    </h2>
+    <button class="btn next-btn" onclick="nextPage()">Next</button>
+  </section>
+
+  <!-- Halaman 3 -->
+  <section class="page" id="page-3">
+
+    <h2>What is your primary goal?</h2>
+    <div class="option-list">
+      <div class="option-item" data-group="goal">
+        <input type="radio" name="goal" value="healthier" hidden/>
+        <div class="custom-radio"></div>
+        <span>Healthier lifestyle</span>
+      </div>
+      <div class="option-item" data-group="goal">
+        <input type="radio" name="goal" value="lose" hidden/>
+        <div class="custom-radio"></div>
+        <span>Lose weight</span>
+      </div>
+      <div class="option-item" data-group="goal">
+        <input type="radio" name="goal" value="energy" hidden/>
+        <div class="custom-radio"></div>
+        <span>Increase energy</span>
+      </div>
+    </div>
+    <button class="btn next-btn" onclick="nextPage()">Next</button>
+  </section>
+
+  <!-- Halaman 4 -->
+  <section class="page" id="page-4">
+
+    <h2>What is your "ideal body"?</h2>
+    <div class="option-list">
+      <div class="option-item" data-group="idealBody">
+        <input type="radio" name="idealBody" value="thin" hidden/>
+        <div class="custom-radio"></div>
+        <span>Thin</span>
+      </div>
+      <div class="option-item" data-group="idealBody">
+        <input type="radio" name="idealBody" value="toned" hidden/>
+        <div class="custom-radio"></div>
+        <span>Toned</span>
+      </div>
+      <div class="option-item" data-group="idealBody">
+        <input type="radio" name="idealBody" value="curvy" hidden/>
+        <div class="custom-radio"></div>
+        <span>Curvy</span>
+      </div>
+      <div class="option-item" data-group="idealBody">
+        <input type="radio" name="idealBody" value="smaller" hidden/>
+        <div class="custom-radio"></div>
+        <span>Just a few sizes smaller</span>
+      </div>
+    </div>
+    <!-- <button class="btn next-btn" onclick="submitLastPage()">Next</button> -->
+    <button class="btn next-btn" onclick="nextPage()">Next</button>
+  </section>
+
+    <!-- Halaman 5 -->
+    <section class="page" id="page-5">
+
+      <h2>Finish</h2>
+    </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

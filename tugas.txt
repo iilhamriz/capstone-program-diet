@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Biodata Saya</title>
+  <style>
+    /* Sedikit gaya CSS agar tampilan lebih rapi */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f0f0f0;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 8px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .biodata {
+      line-height: 1.6;
+    }
+    .label {
+      font-weight: bold;
+      display: inline-block;
+      width: 120px; /* Lebar label agar lebih seragam */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>BIODATA</h1>
+    <div class="biodata">
+      <p><span class="label">Nama:</span> Ilham Rizqullah</p>
+      <p><span class="label">NIM:</span> 123456789</p>
+      <p><span class="label">Jenis Kelamin:</span> Laki-Laki</p>
+      <p><span class="label">Program Studi:</span> Ilmu Komputer</p>
+      <p><span class="label">Fakultas:</span> Teknologi Informasi</p>
+    </div>
+  </div>
+</body>
+</html>

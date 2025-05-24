@@ -22,8 +22,14 @@
   },
   {
     "type": "input",
-    "title": "Please enter your weight",
+    "title": "Please enter your weight (kg)",
     "name": "weight",
     "placeholder": "contoh: 70"
+  },
+  {
+    "type": "input",
+    "title": "Please enter your height (cm)",
+    "name": "height",
+    "placeholder": "contoh: 170"
   }
 ]

@@ -4,13 +4,13 @@
 // 3..(2+questions.length) => Pertanyaan ke-1 s/d ke-n
 // (2+questions.length+1) => Summary
 
-let currentPage = 1; // Mulai di page 1
-let currentQuestionIndex = 0; // Index pertanyaan (0-based) di array questions
-let questions = []; // Akan diisi dari questions.json
-let totalPages = 0; // total = 2 + questions.length + 1 (summary)
+let currentPage = 1;
+let currentQuestionIndex = 0;
+let questions = [];
+let totalPages = 0;
 
 let userData = {
-  gender: "",
+  gender: "", // akan diisi di page-1
 };
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -22,7 +22,8 @@ window.addEventListener("DOMContentLoaded", () => {
     .then((res) => res.json())
     .then((data) => {
       questions = data;
-      totalPages = 2 + questions.length + 1; // 2 page statis + n pertanyaan + summary
+      // 2 halaman awal (page-1 & 2) + n pertanyaan + 1 summary
+      totalPages = 2 + questions.length + 1;
       updateProgressBar();
     })
     .catch((err) => {
@@ -41,7 +42,7 @@ function setGender(g) {
 
 /**
  * nextPage():
- * Handle transisi dari page 1 => 2 => question pages => summary
+ * Handle navigasi forward
  */
 function nextPage() {
   // 1) Page 1 => Page 2
@@ -54,13 +55,13 @@ function nextPage() {
     return;
   }
 
-  // 2) Page 2 => Question Page (mulai pertanyaan)
+  // 2) Page 2 => question-page (pertanyaan pertama)
   if (currentPage === 2) {
     document.getElementById("page-2").classList.remove("active");
     document.getElementById("page-2").style.display = "none";
 
-    // Jika tidak ada pertanyaan => langsung summary
     if (questions.length === 0) {
+      // Jika tak ada pertanyaan => langsung summary
       currentPage = totalPages;
       document.getElementById("summary-page").style.display = "block";
       showSummary();
@@ -74,22 +75,20 @@ function nextPage() {
     return;
   }
 
-  // 3) Jika sedang di question-page (3..(totalPages-1))
+  // 3) Sedang di question-page
   if (currentPage > 2 && currentPage < totalPages) {
     // Validasi & simpan jawaban
-    if (!validateAndSaveAnswer()) {
-      return; // kalau invalid, stop
-    }
+    if (!validateAndSaveAnswer()) return;
 
-    // Maju ke pertanyaan berikutnya
+    // Next question
     currentQuestionIndex++;
-    currentPage++; // agar progress bar naik
+    currentPage++; // Naik satu page agar progress bar naik
 
-    // Apakah masih ada pertanyaan berikutnya?
+    // Cek masih ada pertanyaan?
     if (currentQuestionIndex < questions.length) {
       renderQuestion(currentQuestionIndex);
     } else {
-      // Pertanyaan habis => summary
+      // Habis => ke summary
       document.getElementById("question-page").style.display = "none";
       currentPage = totalPages;
       document.getElementById("summary-page").style.display = "block";
@@ -105,15 +104,13 @@ function nextPage() {
  * Handle tombol back
  */
 function previousPage() {
-  // Page 1 => tidak bisa mundur lagi
+  // page-1 => ga bisa mundur
   if (currentPage <= 1) return;
 
-  // Kalau sedang di summary page
+  // jika di summary => balik ke pertanyaan terakhir
   if (currentPage === totalPages) {
     document.getElementById("summary-page").style.display = "none";
-    // Mundur 1 page
     currentPage--;
-    // Index pertanyaan ke (questions.length-1)
     currentQuestionIndex = questions.length - 1;
     document.getElementById("question-page").style.display = "block";
     renderQuestion(currentQuestionIndex);
@@ -121,9 +118,8 @@ function previousPage() {
     return;
   }
 
-  // Kalau di halaman question
+  // kalau di question-page
   if (currentPage > 2 && currentPage < totalPages) {
-    // Mundur satu pertanyaan
     if (currentQuestionIndex > 0) {
       currentQuestionIndex--;
       currentPage--;
@@ -139,7 +135,7 @@ function previousPage() {
     return;
   }
 
-  // Kalau lagi di page-2 => balik ke page-1
+  // kalau di page-2 => balik ke page-1
   if (currentPage === 2) {
     document.getElementById("page-2").classList.remove("active");
     document.getElementById("page-2").style.display = "none";
@@ -152,30 +148,24 @@ function previousPage() {
 
 /**
  * renderQuestion(index):
- * Tampilkan pertanyaan ke-index di #question-container
- * + tambahkan class "input-type" jika type = "input" (untuk styling)
+ * Tampilkan pertanyaan ke-index
  */
 function renderQuestion(index) {
   const questionData = questions[index];
   const container = document.getElementById("question-container");
   const pageEl = document.getElementById("question-page");
 
-  // Bersihkan container
   container.innerHTML = "";
-  // Pastikan class "input-type" direset dulu
   pageEl.classList.remove("input-type");
 
-  // Judul pertanyaan
   const titleEl = document.createElement("h2");
   titleEl.textContent = questionData.title;
   container.appendChild(titleEl);
 
-  // Data jawaban yang mungkin sudah ada
+  // Cek jika ada jawaban lama
   const savedAnswer = userData[questionData.name];
 
-  // Cek type
   if (questionData.type === "multipleChoice") {
-    // Buat wrapper
     const optionList = document.createElement("div");
     optionList.classList.add("option-list");
 
@@ -195,28 +185,25 @@ function renderQuestion(index) {
       const labelSpan = document.createElement("span");
       labelSpan.textContent = opt.label;
 
-      // Event klik => pilih option ini
+      // Event
       optionItem.addEventListener("click", () => {
-        // Unselect semua item di group
+        // unselect group
         const allItems = optionList.querySelectorAll(".option-item");
         allItems.forEach((i) => {
           i.classList.remove("selected");
           const inp = i.querySelector("input[type=radio]");
           if (inp) inp.checked = false;
         });
-
-        // Select yang diklik
+        // select
         optionItem.classList.add("selected");
         radioInput.checked = true;
       });
 
-      // Jika ada jawaban tersimpan => tandai
       if (savedAnswer && savedAnswer === opt.value) {
         radioInput.checked = true;
         optionItem.classList.add("selected");
       }
 
-      // Gabungkan
       optionItem.appendChild(radioInput);
       optionItem.appendChild(customRadio);
       optionItem.appendChild(labelSpan);
@@ -225,41 +212,28 @@ function renderQuestion(index) {
 
     container.appendChild(optionList);
   } else if (questionData.type === "input") {
-    // Tambahkan class .input-type agar stylingnya aktif
     pageEl.classList.add("input-type");
-
-    // (Opsional) buat paragraf penjelas kalau mau
-    // const pEl = document.createElement("p");
-    // pEl.textContent = "Silakan masukkan data Anda di bawah:";
-    // container.appendChild(pEl);
-
-    // Bikin input
     const inputEl = document.createElement("input");
     inputEl.type = "number";
     inputEl.id = "question-input";
     inputEl.placeholder = questionData.placeholder || "";
-    inputEl.style.padding = "8px";
-    inputEl.style.fontSize = "16px";
 
-    // Jika ada jawaban tersimpan, isi ke input
     if (savedAnswer) {
       inputEl.value = savedAnswer;
     }
-
     container.appendChild(inputEl);
   }
 }
 
 /**
  * validateAndSaveAnswer():
- * Periksa jawaban user & simpan ke userData
+ * Pastikan user isi jawaban, simpan ke userData
  */
 function validateAndSaveAnswer() {
   const questionData = questions[currentQuestionIndex];
   const name = questionData.name;
 
   if (questionData.type === "multipleChoice") {
-    // Cari radio yang dipilih
     const checkedRadio = document.querySelector(
       `input[name="${name}"]:checked`
     );
@@ -268,7 +242,6 @@ function validateAndSaveAnswer() {
       return false;
     }
     userData[name] = checkedRadio.value;
-    return true;
   } else if (questionData.type === "input") {
     const inputEl = document.getElementById("question-input");
     if (!inputEl.value || Number(inputEl.value) <= 0) {
@@ -276,7 +249,6 @@ function validateAndSaveAnswer() {
       return false;
     }
     userData[name] = inputEl.value;
-    return true;
   }
 
   return true;
@@ -284,23 +256,73 @@ function validateAndSaveAnswer() {
 
 /**
  * showSummary():
- * Tampilkan ringkasan jawaban di #summary
+ * Tampilkan ringkasan & berikan kesimpulan
+ * berdasarkan BMI dan goal
  */
 function showSummary() {
   const summaryDiv = document.getElementById("summary");
 
-  // gender dari page-1
-  let html = `<p><strong>Gender:</strong> ${userData.gender}</p>`;
+  // Tampilkan jawaban user
+  let html = `
+    <p><strong>Gender:</strong> ${userData.gender}</p>
+    <p><strong>Primary Goal:</strong> ${userData.goal || "-"}</p>
+    <p><strong>Ideal Body:</strong> ${userData.idealBody || "-"}</p>
+    <p><strong>Weight:</strong> ${userData.weight || "-"} kg</p>
+    <p><strong>Height:</strong> ${userData.height || "-"} cm</p>
+  `;
 
-  // Tampilkan jawaban lain
-  if (userData.goal) {
-    html += `<p><strong>Primary Goal:</strong> ${userData.goal}</p>`;
-  }
-  if (userData.idealBody) {
-    html += `<p><strong>Ideal Body:</strong> ${userData.idealBody}</p>`;
-  }
-  if (userData.weight) {
-    html += `<p><strong>Weight:</strong> ${userData.weight} kg</p>`;
+  // Hitung BMI kalau weight & height terisi
+  if (userData.weight && userData.height) {
+    const weightKg = parseFloat(userData.weight);
+    const heightCm = parseFloat(userData.height);
+    const heightM = heightCm / 100.0; // ubah cm ke meter
+
+    const bmi = weightKg / (heightM * heightM);
+    const bmiRounded = bmi.toFixed(1); // satu desimal
+
+    // Tentukan kategori BMI
+    let category = "";
+    if (bmi < 18.5) {
+      category = "Underweight";
+    } else if (bmi < 25) {
+      category = "Normal";
+    } else if (bmi < 30) {
+      category = "Overweight";
+    } else {
+      category = "Obese";
+    }
+
+    html += `<p><strong>Your BMI:</strong> ${bmiRounded} (${category})</p>`;
+
+    // Beri saran/logika sederhana
+    let recommendation = "";
+    // Misal:
+    if (
+      userData.goal === "lose" &&
+      (category === "Overweight" || category === "Obese")
+    ) {
+      recommendation =
+        "Based on your BMI, you might benefit from a structured weight loss program.";
+    } else if (userData.goal === "lose" && category === "Normal") {
+      recommendation =
+        "Your BMI is already in the normal range. Make sure to lose weight safely.";
+    } else if (userData.goal === "healthier" && category === "Overweight") {
+      recommendation =
+        "Focus on a balanced diet and regular exercise to reach a healthier BMI.";
+    } else if (category === "Underweight") {
+      recommendation =
+        "Consider consuming more nutritious calories and possibly muscle-building exercises.";
+    } else if (category === "Normal") {
+      recommendation =
+        "Maintain your healthy lifestyle! Keep up the good work.";
+    }
+
+    // Tambahkan ke html
+    if (recommendation) {
+      html += `<p style="margin-top:20px;"><strong>Recommendation:</strong> ${recommendation}</p>`;
+    }
+  } else {
+    html += `<p><em>(BMI not calculated due to missing data.)</em></p>`;
   }
 
   summaryDiv.innerHTML = html;
@@ -308,7 +330,7 @@ function showSummary() {
 
 /**
  * updateProgressBar():
- * Menentukan lebar bar berdasarkan currentPage
+ * Mengatur lebar bar
  */
 function updateProgressBar() {
   const header = document.getElementById("header");
@@ -323,10 +345,9 @@ function updateProgressBar() {
     header.style.display = "flex";
   }
 
-  // totalPages = 2 + questions.length + 1
-  // page ke-2 .. totalPages => kita bagi range
-  const steps = totalPages - 1; // misal: 6 - 1 = 5
-  const stepIndex = currentPage - 1; // misal: page=2 => stepIndex=1
+  // totalPages => 2 + questions.length + 1
+  const steps = totalPages - 1;
+  const stepIndex = currentPage - 1;
 
   let percentage = Math.round((stepIndex / steps) * 100);
   if (percentage < 0) percentage = 0;

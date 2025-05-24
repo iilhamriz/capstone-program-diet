@@ -11,6 +11,8 @@ body {
   background-color: #ffffff;
   color: #333;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   min-height: 100vh;
 }
@@ -122,6 +124,53 @@ h1 {
 .highlight {
   color: #68b347;
 }
+
+/* ===== HALAMAN 3 ===== */
+
+/* ============================= */
+/* STYLING KHUSUS UNTUK TIPE INPUT (Seperti #page-5 lama) */
+/* ============================= */
+/* Bila pertanyaan adalah input, kita tambahkan class "input-type" di JS */
+#question-page.input-type {
+  text-align: center;        /* konten di tengah */
+  padding: 50px 20px;        /* extra padding */
+}
+
+/* Style judul */
+#question-page.input-type h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+/* Style paragraf (jika mau menampilkan penjelasan dll) */
+#question-page.input-type p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Style untuk input (mirip #weightInput) */
+#question-page.input-type #question-input {
+  width: 200px; 
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc; 
+  border-radius: 4px;
+  outline: none;
+  /* text-align: center; Biar angka di tengah, optional */
+}
+
+/* Warna border saat fokus */
+#question-page.input-type #question-input:focus {
+  border-color: #ff7f50; /* Coral, sesuaikan selera */
+}
+
+/* Style tombol Next di bawah input */
+#question-page.input-type .next-btn {
+  margin-top: 20px;
+}
+
 
 /* ===== BUTTON ===== */
 .btn {

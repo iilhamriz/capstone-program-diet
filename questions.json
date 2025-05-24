@@ -1,0 +1,29 @@
+[
+  {
+    "type": "multipleChoice",
+    "title": "What is your primary goal?",
+    "name": "goal",
+    "options": [
+      { "value": "healthier", "label": "Healthier lifestyle" },
+      { "value": "lose",      "label": "Lose weight" },
+      { "value": "energy",    "label": "Increase energy" }
+    ]
+  },
+  {
+    "type": "multipleChoice",
+    "title": "What is your ideal body?",
+    "name": "idealBody",
+    "options": [
+      { "value": "thin",    "label": "Thin" },
+      { "value": "toned",   "label": "Toned" },
+      { "value": "curvy",   "label": "Curvy" },
+      { "value": "smaller", "label": "Just a few sizes smaller" }
+    ]
+  },
+  {
+    "type": "input",
+    "title": "Please enter your weight",
+    "name": "weight",
+    "placeholder": "contoh: 70"
+  }
+]

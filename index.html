@@ -2,19 +2,13 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HealthyLife • Kuis Awal</title>
-
-  <!-- Google Font – Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dynamic Quiz Example</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <!-- ===== HEADER PROGRESS ===== -->
+
+  <!-- HEADER -->
   <header class="header" id="header">
     <button class="back-arrow" onclick="previousPage()">
       <span class="arrow-symbol">&#x2190;</span>
@@ -24,71 +18,48 @@
     </div>
   </header>
 
-  <!-- ===== PAGE 1: gender ===== -->
+  <!-- Halaman 1: Pilih Gender -->
   <section class="page active" id="page-1">
-    <h1>Program Diet &amp; Gaya Hidup Sehat</h1>
+    <h1>Program Diet & Gaya Hidup Sehat</h1>
     <p class="subtext">Sesuai Usia dan BMI Anda</p>
 
     <div class="button-group">
-      <button class="btn male-btn" onclick="setGender('Male')">
-        <img src="assets/Male.png" alt="Male" class="btn-icon" />
-        <span>Male</span>
-      </button>
-
-      <button class="btn female-btn" onclick="setGender('Female')">
-        <img src="assets/Female.png" alt="Female" class="btn-icon" />
-        <span>Female</span>
-      </button>
+      <button class="btn male-btn" onclick="setGender('Male')">Male</button>
+      <button class="btn female-btn" onclick="setGender('Female')">Female</button>
     </div>
 
     <p class="disclaimer">
-      Dengan melanjutkan, Anda setuju pada Kebijakan Privasi dan Syarat &amp; Ketentuan kami.
+      Dengan melanjutkan, Anda setuju pada Kebijakan Privasi dan Syarat & Ketentuan kami.
     </p>
   </section>
 
-  <!-- ===== PAGE 2: intro ===== -->
-  <section class="page" id="page-2" style="display:none">
+  <!-- Halaman 2: Intro -->
+  <section class="page" id="page-2" style="display: none;">
     <h2>Selamat Datang!</h2>
-    <p>Halo, terima kasih telah bergabung! Kami senang Anda mempercayakan
-      perjalanan diet dan gaya hidup sehat Anda pada kami. Mari bersama mewujudkan
-      tubuh lebih bugar dan berenergi. Kami hanya membutuhkan waktu kurang dari satu
-      menit untuk mempelajari lebih lanjut tentang kondisi tubuh dan tujuan Anda.
-      Jawaban Anda akan membantu kami menyesuaikan rekomendasi diet, jadwal puasa
-      intermiten, dan rencana kalori harian yang tepat.</p>
+    <p>
+      Halo, terima kasih telah bergabung! Kami senang Anda mempercayakan perjalanan diet 
+      dan gaya hidup sehat Anda pada kami. Mari bersama mewujudkan tubuh lebih bugar 
+      dan berenergi. Kami hanya membutuhkan waktu kurang dari satu menit untuk mempelajari 
+      lebih lanjut tentang kondisi tubuh dan tujuan Anda. Jawaban Anda akan 
+      membantu kami menyesuaikan rekomendasi diet, jadwal puasa intermiten, 
+      dan rencana kalori harian yang tepat.
+    </p>
     <button class="btn next-btn" onclick="nextPage()">Next</button>
   </section>
 
-  <!-- ===== PAGE DINAMIS ===== -->
-  <section class="page" id="question-page" style="display:none">
+  <!-- Halaman Pertanyaan (dinamis) -->
+  <!-- Catatan: kita akan menambahkan class "input-type" via JS jika pertanyaan adalah input -->
+  <section class="page" id="question-page" style="display: none;">
     <div id="question-container"></div>
     <button class="btn next-btn" onclick="nextPage()">Next</button>
   </section>
 
-  <!-- ===== PAGE SUMMARY ===== -->
-  <section class="page" id="summary-page" style="display:none">
+  <!-- Halaman Summary -->
+  <section class="page" id="summary-page" style="display: none;">
     <h2>Finish</h2>
-
-    <!-- tombol download pdf -->
-    <button id="download-btn" class="btn download-btn" style="display:none">
-      Download Plan (PDF)
-    </button>
-
-    <div id="summary" style="margin-top:20px;font-size:16px"></div>
+    <div id="summary" style="margin-top: 20px; font-size: 16px;"></div>
   </section>
 
-  <!-- ===== SCRIPT ===== -->
-  <!-- jsPDF CDN -->
-<!-- jsPDF 2.5.1 UMD – hash asli -->
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
-  integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer">
-</script>
-
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
